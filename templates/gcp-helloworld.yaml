@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gcp-helloworld-{{.Release.Name}}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gcp-helloworld-{{.Release.Name}}
+  template:
+    metadata:
+      labels:
+        app: gcp-helloworld-{{.Release.Name}}
+    spec:
+      containers:
+      - name: gcp-helloworld-{{.Release.Name}}
+        image: gcr.io/go-helloworld-gke/go-hello-world:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: TITLE
+          value: {{ .Values.title }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.serviceName }}
+spec:
+  type: {{ .Values.serviceType }}
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+  selector:
+    app: gcp-helloworld-{{.Release.Name}}

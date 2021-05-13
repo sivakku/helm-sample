@@ -1,0 +1,6 @@
+# UI controll
+title: "Welcome to GCP Kubernetes Service (GCP)"
+
+# Service controlls
+serviceName: gcp-helloworld
+serviceType: LoadBalancer
